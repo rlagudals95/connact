@@ -1,13 +1,10 @@
 {
-  "name": "extension-boilerplate",
-  "version": "1.2.0",
+  "name": "connact",
+  "version": "0.0.0",
   "type": "module",
-  "description": "extension-boilerplate",
+  "description": "connact",
   "engines": {
     "node": ">=18.16.0"
-  },
-  "repository": {
-    "url": "https://gitlab.com/team_babel/olaf/extension-boilerplate.git"
   },
   "packageManager": "npm@9.5.1",
   "scripts": {
