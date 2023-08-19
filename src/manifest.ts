@@ -10,7 +10,7 @@ const manifest: ManifestType = {
   background: { service_worker: "src/pages/background/index.js" },
   action: {
     default_popup: "src/pages/popup/index.html",
-    default_icon: "ohoo_favicon_48.png",
+    default_icon: "smile.png",
   },
 
   icons: {
@@ -27,21 +27,16 @@ const manifest: ManifestType = {
     default_title: "Test",
     default_popup: "popup.html",
   },
-  host_permissions: [
-    "https://*/*",
-    "http://*/*",
-  ],
+  host_permissions: ["https://*/*", "http://*/*"],
   permissions: ["scripting", "storage", "activeTab", "downloads", "cookies"],
   devtools_page: "src/pages/devtools/index.html",
   web_accessible_resources: [
     {
       resources: [
         "../dist/src/pages/content/index.js",
-        "../dist/src/pages/content/index.js",
         "../dist/src/pages/popup/index.html",
         "contentStyle.css",
-        "ohoo_favicon_128.png",
-        "ohoo_favicon_48.png",
+        "smile.png",
       ],
       matches: [],
     },

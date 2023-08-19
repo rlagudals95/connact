@@ -1,4 +1,4 @@
-import image from "../../../public/ohoo_favicon_128.png";
+import image from "../../../public/smile.png";
 
 export const scrapTriggerElement = (): HTMLElement => {
   const element = document.createElement("div");
