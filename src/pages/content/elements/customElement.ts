@@ -14,12 +14,30 @@ export class CustomElement<T extends keyof HTMLElementTagNameMap> {
   constructor(options: ElementOptions) {
     this.element = document.createElement(options.tagName);
     this.applyStyles(options.styles);
+    this.setDefaultStyles();
     if (options.text) this.setText(options.text);
     if (options.classes) this.addClasses(options.classes);
     if (options.events) this.addEventListeners(options.events);
   }
 
-  private applyStyles(styles?: Partial<CSSStyleDeclaration>): void {
+  private setDefaultStyles(): void {
+    this.applyStyles({
+      padding: "1rem",
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "center",
+      position: "fixed",
+      top: "50px",
+      right: "50px",
+      borderRadius: "0.5rem",
+      background: "white",
+      zIndex: "99999",
+      boxShadow:
+        "2px 2px 6px 0px rgba(0, 0, 0, 0.10), 0px 0px 2px 0px rgba(0, 0, 0, 0.20)",
+    });
+  }
+
+  public applyStyles(styles?: Partial<CSSStyleDeclaration>): void {
     if (!styles) return;
     const elementStyle = this.element.style;
     for (const property in styles) {
