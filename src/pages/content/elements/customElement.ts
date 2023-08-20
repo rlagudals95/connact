@@ -1,56 +1,66 @@
+type StyleProperty = keyof CSSStyleDeclaration;
+
+interface ElementOptions {
+  tagName: keyof HTMLElementTagNameMap;
+  styles?: Partial<CSSStyleDeclaration>;
+  text?: string;
+  classes?: string[];
+  events?: { [key: string]: EventListener };
+}
+
 export class CustomElement<T extends keyof HTMLElementTagNameMap> {
   private element: HTMLElement;
 
-  constructor(tagName: T) {
-    this.element = document.createElement(tagName);
-    this.setDefaultStyles();
+  constructor(options: ElementOptions) {
+    this.element = document.createElement(options.tagName);
+    this.applyStyles(options.styles);
+    if (options.text) this.setText(options.text);
+    if (options.classes) this.addClasses(options.classes);
+    if (options.events) this.addEventListeners(options.events);
   }
 
-  private setDefaultStyles(): void {
+  private applyStyles(styles?: Partial<CSSStyleDeclaration>): void {
+    if (!styles) return;
     const elementStyle = this.element.style;
-    elementStyle.padding = "1rem";
-    elementStyle.display = "flex";
-    elementStyle.flexDirection = "column";
-    elementStyle.justifyContent = "center";
-    elementStyle.position = "fixed";
-    elementStyle.top = "50px";
-    elementStyle.right = "50px";
-    elementStyle.borderRadius = "0.5rem";
-    elementStyle.background = "white";
-    elementStyle.zIndex = "99999";
-    elementStyle.boxShadow =
-      "2px 2px 6px 0px rgba(0, 0, 0, 0.10), 0px 0px 2px 0px rgba(0, 0, 0, 0.20)";
-  }
-
-  public setStyle(property: string, value: string): void {
-    this.element.style[property] = value;
+    for (const property in styles) {
+      if (Object.prototype.hasOwnProperty.call(styles, property)) {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        //@ts-ignore
+        elementStyle[property as StyleProperty] = styles[property]!;
+      }
+    }
   }
 
   setText(text: string): void {
     this.element.textContent = text;
   }
 
-  public addClass(className: string): void {
-    this.element.classList.add(className);
+  addClasses(classes: string[]): void {
+    this.element.classList.add(...classes);
   }
 
-  public addEventListener(event: string, handler: EventListener): void {
-    this.element.addEventListener(event, handler);
+  addEventListeners(events: { [key: string]: EventListener }): void {
+    for (const eventName in events) {
+      // eslint-disable-next-line no-prototype-builtins
+      if (events.hasOwnProperty(eventName)) {
+        this.element.addEventListener(eventName, events[eventName]);
+      }
+    }
   }
 
-  public appendTo(target: HTMLElement): void {
+  appendTo(target: HTMLElement): void {
     target.appendChild(this.element);
   }
 
-  public addChild(child: HTMLElement | CustomElement<T>): void {
+  addChild(child: HTMLElement | CustomElement<T>): void {
     if (child instanceof CustomElement) {
-      this.element.appendChild(child.getElement());
+      this.element.appendChild(child.element);
     } else {
       this.element.appendChild(child);
     }
   }
 
-  public appendHtml(htmlString: string): void {
+  appendHtml(htmlString: string): void {
     const tempDiv = document.createElement("div");
     tempDiv.innerHTML = htmlString;
 
