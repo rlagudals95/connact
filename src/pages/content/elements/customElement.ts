@@ -1,3 +1,5 @@
+import { COLOR } from "@src/pages/constants/color";
+
 type StyleProperty = keyof CSSStyleDeclaration;
 
 interface ElementOptions {
@@ -13,8 +15,9 @@ export class CustomElement<T extends keyof HTMLElementTagNameMap> {
 
   constructor(options: ElementOptions) {
     this.element = document.createElement(options.tagName);
-    this.applyStyles(options.styles);
     this.setDefaultStyles();
+    this.applyStyles(options.styles);
+
     if (options.text) this.setText(options.text);
     if (options.classes) this.addClasses(options.classes);
     if (options.events) this.addEventListeners(options.events);
@@ -26,14 +29,18 @@ export class CustomElement<T extends keyof HTMLElementTagNameMap> {
       display: "flex",
       flexDirection: "column",
       justifyContent: "center",
-      position: "fixed",
-      top: "50px",
-      right: "50px",
-      borderRadius: "0.5rem",
+      borderRadius: "1rem",
       background: "white",
       zIndex: "99999",
+      width: "fit-content",
+      height: "fit-content",
+      gap: "1rem",
+      cursor: "pointer",
+      fontSize: "1.5rem",
+      fontWeight: "500",
+      border: `1px solid ${COLOR.MIDDLE_GRAY}`,
       boxShadow:
-        "2px 2px 6px 0px rgba(0, 0, 0, 0.10), 0px 0px 2px 0px rgba(0, 0, 0, 0.20)",
+        "2px 2px 6px 0px rgba(0, 0, 0, 0.20), 0px 0px 2px 0px rgba(0, 0, 0, 0.50)",
     });
   }
 
@@ -85,6 +92,10 @@ export class CustomElement<T extends keyof HTMLElementTagNameMap> {
     while (tempDiv.firstChild) {
       this.element.appendChild(tempDiv.firstChild);
     }
+  }
+
+  resetStyles(): void {
+    this.setDefaultStyles();
   }
 
   getElement(): HTMLElement {
