@@ -60,10 +60,6 @@ export class CustomElement<T extends keyof HTMLElementTagNameMap> {
     this.element.textContent = text;
   }
 
-  addClasses(classes: string[]): void {
-    this.element.classList.add(...classes);
-  }
-
   addEventListeners(events: { [key: string]: EventListener }): void {
     for (const eventName in events) {
       // eslint-disable-next-line no-prototype-builtins
@@ -100,5 +96,13 @@ export class CustomElement<T extends keyof HTMLElementTagNameMap> {
 
   getElement(): HTMLElement {
     return this.element;
+  }
+
+  addClasses(classes: string[]): void {
+    this.element.classList.add(...classes);
+  }
+
+  removeClasses(classes: string[]): void {
+    this.element.classList.remove(...classes);
   }
 }
